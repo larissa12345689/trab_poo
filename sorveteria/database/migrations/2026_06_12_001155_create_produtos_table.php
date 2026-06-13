@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo',255);
+            $table->string('nome',255);
             $table->string('sabor',255);
+            $table->decimal('preco',8, 2);
             $table->timestamps();
         });
     }
