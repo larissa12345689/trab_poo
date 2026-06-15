@@ -12,6 +12,7 @@
             <th>ID</th>
             <th>Nome</th>
             <th>Telefone</th>
+            <th>Ações</th>
         </tr>
 
     @foreach ($clientes as $cliente)
@@ -19,7 +20,21 @@
             <td>{{ $cliente->id }}</td>
             <td>{{ $cliente->nome }}</td>
             <td>{{ $cliente->telefone }}</td>
-            <td>{{ }}</td>
+            <td>
+                <form action="/clientes/deletar/{{ $cliente->id }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" onclick="return confirm('Tem certeza que deseja apagar?')">Apagar</button>
+                </form>
+
+                <form action="/clientes/editar/{{ $cliente->id }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" onclick="return confirm('Tem certeza que deseja apagar?')">Apagar</button>
+                </form>
+            </td>
         </tr>
     @endforeach
 

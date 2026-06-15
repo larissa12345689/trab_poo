@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cliente;
 
-class ClienteController extends Controller
+class ProdutoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $clientes = Cliente::all();
-        return view('clientes.index', ['clientes' => $clientes]);
+        //
     }
 
     /**
@@ -21,7 +19,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('clientes.create');
+        //
     }
 
     /**
@@ -29,12 +27,7 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        Cliente::create([
-            'nome' => $request->nome,
-            'telefone' => $request->telefone,
-        ]);
-
-        return redirect('/clientes');
+        //
     }
 
     /**
@@ -66,8 +59,6 @@ class ClienteController extends Controller
      */
     public function destroy(string $id)
     {
-        $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
-        return redirect('/clientes');
+        //
     }
 }
