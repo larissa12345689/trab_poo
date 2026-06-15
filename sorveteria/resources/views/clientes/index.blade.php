@@ -21,6 +21,8 @@
             <td>{{ $cliente->nome }}</td>
             <td>{{ $cliente->telefone }}</td>
             <td>
+                <a href="/clientes/editar/{{ $cliente->id }}">Editar</a> {{-- como é so para abrir a pagina pode usar a --}}
+                
                 <form action="/clientes/deletar/{{ $cliente->id }}" method="POST">
                     @csrf
                     @method('DELETE')
@@ -28,12 +30,6 @@
                     <button type="submit" onclick="return confirm('Tem certeza que deseja apagar?')">Apagar</button>
                 </form>
 
-                <form action="/clientes/editar/{{ $cliente->id }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit" onclick="return confirm('Tem certeza que deseja apagar?')">Apagar</button>
-                </form>
             </td>
         </tr>
     @endforeach

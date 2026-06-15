@@ -50,7 +50,8 @@ class ClienteController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cliente = Cliente::findOrFail($id);
+        return view('clientes.edit', ['cliente' => $cliente]); //recria a variavel dentro da view
     }
 
     /**
@@ -58,7 +59,14 @@ class ClienteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $cliente = Cliente::findOrFail($id);
+
+        $cliente->update([
+        'nome' => $request->nome,
+        'telefone' => $request->telefone,
+        ]);
+
+        return redirect('/clientes');
     }
 
     /**
