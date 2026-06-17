@@ -1,15 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClienteController;
 
-Route::view('/', 'inicio');
+Route::get('/', function () {
+    return view('welcome');
+});
 
-Route::get('/clientes', [ClienteController::class, 'index']);
-Route::get('/clientes/criar', [ClienteController::class, 'create']);
-Route::post('/clientes/salvar', [ClienteController::class, 'store']);
-Route::get('/clientes/editar/{id}', [ClienteController::class, 'edit']);
-Route::put('/clientes/atualizar/{id}', [ClienteController::class, 'update']);
-Route::delete('/clientes/deletar/{id}', [ClienteController::class, 'destroy']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+require __DIR__.'/auth.php';
