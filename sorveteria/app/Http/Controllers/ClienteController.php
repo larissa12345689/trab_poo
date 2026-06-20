@@ -29,6 +29,11 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+            $request->validate([
+            'nome' => 'required|max:255',
+            'telefone' => 'required|max:20',
+        ]);
+
         Cliente::create([
             'nome' => $request->nome,
             'telefone' => $request->telefone,
@@ -59,14 +64,19 @@ class ClienteController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+        'nome' => 'required|max:255',
+        'telefone' => 'required|max:20',
+    ]);
+    
         $cliente = Cliente::findOrFail($id);
 
         $cliente->update([
         'nome' => $request->nome,
         'telefone' => $request->telefone,
-        ]);
+    ]);
 
-        return redirect('/clientes');
+        return redirect()->route('clientes.index');
     }
 
     /**

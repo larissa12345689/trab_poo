@@ -9,6 +9,7 @@ class Venda extends Model
     protected $fillable = [
         'cliente_id',
         'produto_id',
+        'quantidade'
     ];
 
     public function cliente() {

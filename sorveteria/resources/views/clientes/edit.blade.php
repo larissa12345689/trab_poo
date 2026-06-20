@@ -1,25 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add cliente</title>
-</head>
-<body>
-    <form action="/clientes/atualizar/{{$cliente -> id}}" method="POST">
-        @csrf
-        @method('PUT')
+<h1>Editar Cliente</h1>
 
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" value="{{$cliente -> nome }}" required>
-        <br><br>
+<form
+    action="{{ route('clientes.update', $cliente->id) }}"
+    method="POST"
+>
 
-        <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" name="telefone" value="{{ $cliente->telefone }}" required>
-        <br><br>
+    @csrf
+    @method('PUT')
 
-        <button type="submit">Salvar Alterações</button>
-    </form>
-</body>
-</html>
+    <label>Nome</label>
+
+    <input
+        type="text"
+        name="nome"
+        value="{{ $cliente->nome }}"
+    >
+
+    <br><br>
+
+    <label>Telefone</label>
+
+    <input
+        type="text"
+        name="telefone"
+        value="{{ $cliente->telefone }}"
+    >
+
+    <br><br>
+
+    <button type="submit">
+        Atualizar
+    </button>
+
+</form>

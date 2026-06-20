@@ -10,14 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('clientes', function (Blueprint $table) {
-            $table->id();
-            $table->string('nome');
-            $table->integer('telefone')->unique();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('clientes', function (Blueprint $table) {
+
+        $table->id();
+        $table->string('nome');
+        $table->string('telefone');
+        $table->integer('compras_realizadas') ->default(0);
+
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
