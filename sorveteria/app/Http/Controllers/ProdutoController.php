@@ -29,6 +29,13 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+        'tipo' => 'required|max:255',
+        'nome' => 'required|max:255',
+        'sabor' => 'required|max:255',
+        'preco' => 'required|numeric|min:0'
+    ]);
+
         Produto::create([
             'tipo' => $request->tipo,
             'nome' => $request->nome,
@@ -36,7 +43,7 @@ class ProdutoController extends Controller
             'preco' => $request->preco
         ]);
 
-        return redirect('/produtos');
+        return redirect()->route('produtos.index');
     }
 
     /**
@@ -52,7 +59,9 @@ class ProdutoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $produto = Produto::findOrFail($id);
+
+        return view('produtos.edit', compact('produto'));
     }
 
     /**
@@ -60,7 +69,23 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+        'tipo' => 'required|max:255',
+        'nome' => 'required|max:255',
+        'sabor' => 'required|max:255',
+        'preco' => 'required|numeric|min:0'
+    ]);
+
+        $produto = Produto::findOrFail($id);
+
+        $produto->update([
+        'tipo' => $request->tipo,
+        'nome' => $request->nome,
+        'sabor' => $request->sabor,
+        'preco' => $request->preco,
+    ]);
+
+    return redirect()->route('produtos.index');
     }
 
     /**
@@ -68,6 +93,10 @@ class ProdutoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $produto = Produto::findOrFail($id);
+
+        $produto->delete();
+
+        return redirect()->route('produtos.index');
     }
 }

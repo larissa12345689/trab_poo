@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Produto;
 use App\Models\Venda;
 use App\Models\Cliente;
 
@@ -13,9 +14,9 @@ class VendaController extends Controller
      */
     public function index()
     {
-        $vendas = Venda::all();
-        dd($vendas);
-        return view('vendas.index', ['cliente_id' => $cliente_id, 'produto_id' => $produto_id]);
+        $vendas = Venda::with('cliente', 'produto')->get();
+
+        return view('vendas.index', compact('vendas'));
     }
 
     /**
@@ -23,27 +24,35 @@ class VendaController extends Controller
      */
     public function create()
     {
-        //
+        $clientes = Cliente::all();
+        $produtos = Produto::all();
+
+        return view('vendas.create',compact('clientes', 'produtos'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {
-        $venda = Venda::create([
-            'cliente_id' => $request->cliente_id,
-            'produto_id' => $request->produto_id,
+    public function store(Request $request) 
+    {
+        $request->validate([
+            'cliente_id' => 'nullable|exists:clientes,id',
+            'produto_id' => 'required|exists:produtos,id',
+            'quantidade' => 'required|integer|min:1'
         ]);
 
-        $cliente = Cliente::find($request->cliente_id); // pega o registro que tem esse id
+        Venda::create([
+            'cliente_id' => $request->cliente_id,
+            'produto_id' => $request->produto_id,
+            'quantidade' => $request->quantidade,
+        ]);
 
-        $totalCompras = $cliente->vendas->count();
-
-        if ($totalCompras % 10 === 0) {
-            return response()->json(['mensagem' => "Venda registrada! entre em contato com {$cliente->nome} e dê os PARABÉNS 🎉 ele(a) ganhou um brinde!"]);
+        if ($request->cliente_id) {
+            $cliente = Cliente::find($request->cliente_id);
+            $cliente->increment('compras_realizadas');
         }
 
-        return response()->json(['mensagem' => "Venda registrada com sucesso! Total de compras do cliente: {$totalCompras}"]);
+        return redirect()->route('vendas.index');
     }
 
     /**
@@ -59,7 +68,12 @@ class VendaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $venda = Venda::findOrFail($id);
+
+        $clientes = Cliente::all();
+        $produtos = Produto::all();
+
+        return view('vendas.edit',compact('venda','clientes','produtos'));
     }
 
     /**
@@ -67,7 +81,22 @@ class VendaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'cliente_id' => 'nullable|exists:clientes,id',
+            'produto_id' => 'required|exists:produtos,id',
+            'quantidade' => 'required|integer|min:1'
+        ]);
+
+        $venda = Venda::findOrFail($id);
+
+        $venda->update([
+            'cliente_id' => $request->cliente_id,
+            'produto_id' => $request->produto_id,
+            'quantidade' => $request->quantidade,
+        ]);
+
+        return redirect()->route('vendas.index');
+
     }
 
     /**
@@ -75,6 +104,10 @@ class VendaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $venda = Venda::findOrFail($id);
+
+        $venda->delete();
+
+        return redirect()->route('vendas.index');
     }
 }

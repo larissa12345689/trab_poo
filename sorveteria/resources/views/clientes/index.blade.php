@@ -16,24 +16,18 @@
     @foreach($clientes as $cliente)
 
         <tr>
-
             <td>{{ $cliente->nome }}</td>
-
             <td>{{ $cliente->telefone }}</td>
-
             <td>{{ $cliente->compras_realizadas }}</td>
 
+            
+
+   
+            
             <td>
+                <a href="{{ route('clientes.edit', $cliente->id) }}">Editar</a>
 
-                <a href="{{ route('clientes.edit', $cliente->id) }}">
-                    Editar
-                </a>
-
-                <form
-                    action="{{ route('clientes.destroy', $cliente->id) }}"
-                    method="POST"
-                    style="display:inline"
-                >
+                <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display:inline">
                     @csrf
                     @method('DELETE')
 
