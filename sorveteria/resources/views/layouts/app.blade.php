@@ -32,5 +32,20 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <div class="flex min-h-screen">
+            <aside class="w-64 bg-pink-500 text-white p-6">
+                <h2 class="text-2xl font-bold mb-6">🍦 Sorveteria</h2>
+
+            <nav class="space-y-4">
+                <a href="#" class="block hover:text-pink-200">Dashboard</a>
+                <a href="#" class="block hover:text-pink-200">Clientes</a>
+                <a href="#" class="block hover:text-pink-200">Produtos</a>
+                <a href="#" class="block hover:text-pink-200">Fidelidade</a>
+            </nav>
+
+            <main class="flex-1 p-6 bg-gray-100">{{ $slot }}</main>
+            </aside>
+        </div>
     </body>
 </html>
